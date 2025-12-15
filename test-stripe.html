@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Integration Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .status.loading {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+        .test-details {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Stripe Integration Test</h1>
+        <p>This will test your Stripe integration by attempting to create a checkout session.</p>
+
+        <div class="note">
+            <strong>⚠️ Prerequisites:</strong>
+            <ul>
+                <li>You must be logged in to the app</li>
+                <li>STRIPE_SECRET_KEY must be configured in Supabase</li>
+                <li>This test uses Stripe test mode (no real charges)</li>
+            </ul>
+        </div>
+
+        <button onclick="runTest()" id="testBtn">Run Stripe Test</button>
+
+        <div id="status"></div>
+        <div id="details"></div>
+    </div>
+
+    <script type="module">
+        const SUPABASE_URL = 'https://bhttzmtvjvvgunjeqahp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJodHR6bXR2anZ2Z3VuamVxYWhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1MDUyNzAsImV4cCI6MjA4MTA4MTI3MH0.Y3vs4ZAmvA-BzgI-tvLbKP5eS1-LlX3TuI-5fnS5ljo';
+
+        window.runTest = async function() {
+            const statusDiv = document.getElementById('status');
+            const detailsDiv = document.getElementById('details');
+            const testBtn = document.getElementById('testBtn');
+
+            testBtn.disabled = true;
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = '🔄 Testing Stripe integration...';
+            detailsDiv.innerHTML = '';
+
+            const results = [];
+
+            try {
+                // Test 1: Check if user is authenticated
+                results.push('📋 Test 1: Checking authentication...');
+                const authResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${localStorage.getItem('supabase.auth.token') || ''}`
+                    }
+                });
+
+                if (!authResponse.ok) {
+                    throw new Error('❌ Not authenticated. Please log in to the app first.');
+                }
+                results.push('✅ Authentication check passed');
+
+                // Test 2: Call create-checkout function
+                results.push('\n📋 Test 2: Testing Stripe checkout creation...');
+                const checkoutResponse = await fetch(
+                    `${SUPABASE_URL}/functions/v1/create-checkout`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('supabase.auth.token')}`,
+                            'apikey': SUPABASE_ANON_KEY
+                        },
+                        body: JSON.stringify({ packageType: 'small' })
+                    }
+                );
+
+                const data = await checkoutResponse.json();
+
+                if (!checkoutResponse.ok) {
+                    // Check for specific error messages
+                    if (data.error && data.error.includes('STRIPE_SECRET_KEY')) {
+                        throw new Error('❌ STRIPE_SECRET_KEY is not configured in Supabase environment variables');
+                    }
+                    throw new Error(`❌ Stripe API Error: ${data.error || 'Unknown error'}`);
+                }
+
+                if (data.url && data.sessionId) {
+                    results.push('✅ Stripe checkout session created successfully!');
+                    results.push(`   Session ID: ${data.sessionId}`);
+                    results.push(`   Checkout URL: ${data.url.substring(0, 50)}...`);
+
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '<strong>✅ SUCCESS!</strong> Stripe is configured and working correctly.';
+                } else {
+                    throw new Error('❌ Unexpected response format from Stripe');
+                }
+
+            } catch (error) {
+                results.push(`\n❌ Error: ${error.message}`);
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `<strong>❌ TEST FAILED</strong><br>${error.message}`;
+
+                // Add helpful guidance based on error
+                if (error.message.includes('STRIPE_SECRET_KEY')) {
+                    results.push('\n💡 How to fix:');
+                    results.push('1. Go to your Stripe Dashboard: https://dashboard.stripe.com/apikeys');
+                    results.push('2. Copy your Secret Key (starts with sk_test_ or sk_live_)');
+                    results.push('3. In Supabase Dashboard, go to Project Settings > Edge Functions');
+                    results.push('4. Add STRIPE_SECRET_KEY as an environment variable');
+                } else if (error.message.includes('authentication')) {
+                    results.push('\n💡 How to fix:');
+                    results.push('1. Go to your app and sign in');
+                    results.push('2. Then return here and run the test again');
+                }
+            }
+
+            detailsDiv.innerHTML = `<div class="test-details">${results.join('\n')}</div>`;
+            testBtn.disabled = false;
+        };
+    </script>
+</body>
+</html>
