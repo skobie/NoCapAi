@@ -1,0 +1,37 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fb923c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#gradient)"/>
+
+  <!-- Shield/Badge Shape -->
+  <path d="M256 80 L380 130 L380 260 Q380 340 256 420 Q132 340 132 260 L132 130 Z"
+        fill="white" opacity="0.95" filter="url(#shadow)"/>
+
+  <!-- NoCap Text -->
+  <text x="256" y="230" font-family="Arial, sans-serif" font-size="72" font-weight="900"
+        fill="url(#gradient)" text-anchor="middle">No</text>
+  <text x="256" y="310" font-family="Arial, sans-serif" font-size="72" font-weight="900"
+        fill="url(#gradient)" text-anchor="middle">Cap</text>
+
+  <!-- Checkmark accent -->
+  <path d="M210 340 L235 365 L310 280" stroke="url(#gradient)" stroke-width="12"
+        stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#shadow)"/>
+</svg>

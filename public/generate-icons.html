@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Generator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 { color: #333; }
+        button {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #db2777; }
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .icon-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        canvas { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NoCap Icon Generator</h1>
+        <p>Generate all required icon sizes for PWA, iOS, and Android app stores.</p>
+
+        <button onclick="generateAllIcons()">Generate All Icons</button>
+        <button onclick="downloadAll()">Download All as ZIP</button>
+
+        <div class="icons-grid" id="icons"></div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 180, 192, 384, 512];
+        const icons = {};
+
+        async function generateAllIcons() {
+            const iconsDiv = document.getElementById('icons');
+            iconsDiv.innerHTML = '<p>Generating icons...</p>';
+
+            const svgResponse = await fetch('/logo.svg');
+            const svgText = await svgResponse.text();
+
+            for (const size of sizes) {
+                const dataUrl = await svgToPng(svgText, size);
+                icons[size] = dataUrl;
+
+                const iconItem = document.createElement('div');
+                iconItem.className = 'icon-item';
+                iconItem.innerHTML = `
+                    <img src="${dataUrl}" alt="${size}x${size}">
+                    <p><strong>${size}x${size}</strong></p>
+                    <button onclick="downloadIcon(${size})">Download</button>
+                `;
+                iconsDiv.appendChild(iconItem);
+            }
+        }
+
+        function svgToPng(svgText, size) {
+            return new Promise((resolve) => {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = size;
+                canvas.height = size;
+
+                const img = new Image();
+                const svg = new Blob([svgText], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(svg);
+
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, size, size);
+                    const pngUrl = canvas.toDataURL('image/png');
+                    URL.revokeObjectURL(url);
+                    resolve(pngUrl);
+                };
+                img.src = url;
+            });
+        }
+
+        function downloadIcon(size) {
+            const link = document.createElement('a');
+            link.download = `icon-${size}.png`;
+            link.href = icons[size];
+            link.click();
+        }
+
+        async function downloadAll() {
+            for (const [size, dataUrl] of Object.entries(icons)) {
+                const link = document.createElement('a');
+                link.download = `icon-${size}.png`;
+                link.href = dataUrl;
+                link.click();
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+    </script>
+</body>
+</html>
