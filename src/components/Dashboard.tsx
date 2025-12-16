@@ -21,13 +21,8 @@ export default function Dashboard() {
   const [showGame, setShowGame] = useState(false);
 
   const handleSignOut = async () => {
-    try {
-      console.log('Logout button clicked');
-      await signOut();
-    } catch (error) {
-      console.error('Logout failed:', error);
-      alert('Failed to log out. Please try again.');
-    }
+    console.log('Logout button clicked');
+    await signOut();
   };
 
   useEffect(() => {
