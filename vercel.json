@@ -63,7 +63,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!robots\\.txt|sitemap\\.xml|manifest\\.json|logo\\.svg|sw\\.js|assets/).*)",
       "destination": "/index.html"
     }
   ]
