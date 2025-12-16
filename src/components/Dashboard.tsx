@@ -105,7 +105,7 @@ export default function Dashboard() {
                 <Coins className="w-4 h-4" />
                 <span>{tokenBalance}</span>
               </button>
-              <div className="px-4 py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
+              <div className="hidden sm:flex px-4 py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
                 {freeScansRemaining} free {freeScansRemaining === 1 ? 'scan' : 'scans'}
               </div>
               <div className="hidden sm:flex gap-2">
