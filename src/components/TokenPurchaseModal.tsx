@@ -58,6 +58,14 @@ export default function TokenPurchaseModal({
   const handlePurchase = async (packageId: string) => {
     setLoading(packageId);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        alert('Please log in to purchase tokens');
+        setLoading(null);
+        return;
+      }
+
       const selectedPackage = packages.find(pkg => pkg.id === packageId);
       if (selectedPackage) {
         trackEvent('begin_checkout', {
@@ -76,14 +84,18 @@ export default function TokenPurchaseModal({
         body: { packageType: packageId },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Checkout error:', error);
+        throw error;
+      }
 
       if (data?.url) {
         window.location.href = data.url;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating checkout:', error);
-      alert('Failed to create checkout session. Please try again.');
+      const message = error?.message || 'Failed to create checkout session';
+      alert(message + '. Please try logging out and back in.');
       setLoading(null);
     }
   };
