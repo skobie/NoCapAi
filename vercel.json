@@ -35,15 +35,6 @@
       ]
     },
     {
-      "source": "/(.*\\.(png|jpg|jpeg|gif|svg|ico|webp))",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
       "source": "/robots.txt",
       "headers": [
         {
@@ -70,10 +61,8 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/((?!robots.txt|sitemap.xml).*)",
-      "destination": "/index.html"
-    }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
