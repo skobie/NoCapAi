@@ -20,6 +20,16 @@ export default function Dashboard() {
   const [tokenModalReason, setTokenModalReason] = useState<'insufficient' | 'voluntary'>('voluntary');
   const [showGame, setShowGame] = useState(false);
 
+  const handleSignOut = async () => {
+    try {
+      console.log('Logout button clicked');
+      await signOut();
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Failed to log out. Please try again.');
+    }
+  };
+
   useEffect(() => {
     fetchTokenBalance();
   }, [user]);
@@ -133,7 +143,7 @@ export default function Dashboard() {
                 </button>
               </div>
               <button
-                onClick={signOut}
+                onClick={handleSignOut}
                 className="px-4 py-2 bg-white/20 hover:bg-white/30 active:bg-white/40 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm min-h-[44px] min-w-[44px] justify-center relative z-50 touch-manipulation"
               >
                 <LogOut className="w-4 h-4" />
