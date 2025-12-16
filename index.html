@@ -11,7 +11,10 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-989ZNCGXML');
+      gtag('config', 'G-989ZNCGXML', {
+        send_page_view: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
     </script>
 
     <!-- Primary Meta Tags -->

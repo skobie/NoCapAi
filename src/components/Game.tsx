@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Play, Sparkles, CheckCircle, XCircle, Trophy } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { trackGamePlay } from '../lib/analytics';
 
 type GameState = 'intro' | 'countdown' | 'playing' | 'guessing' | 'result';
 
@@ -122,6 +123,7 @@ export default function Game({ isOpen, onClose, onPointsUpdate }: Props) {
 
   const startPlaying = () => {
     if (mediaPool.length === 0) return;
+    trackGamePlay();
     const randomMedia = mediaPool[Math.floor(Math.random() * mediaPool.length)];
     setCurrentMedia(randomMedia);
     setTimeRemaining(10);

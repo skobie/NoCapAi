@@ -1,6 +1,7 @@
 import { X, Coins, Zap, Crown, Sparkles, Gamepad2 } from 'lucide-react';
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { trackEvent } from '../lib/analytics';
 
 interface TokenPurchaseModalProps {
   isOpen: boolean;
@@ -57,6 +58,20 @@ export default function TokenPurchaseModal({
   const handlePurchase = async (packageId: string) => {
     setLoading(packageId);
     try {
+      const selectedPackage = packages.find(pkg => pkg.id === packageId);
+      if (selectedPackage) {
+        trackEvent('begin_checkout', {
+          currency: 'USD',
+          value: selectedPackage.price,
+          items: [{
+            item_id: packageId,
+            item_name: `${selectedPackage.tokens} Tokens`,
+            price: selectedPackage.price,
+            quantity: 1
+          }]
+        });
+      }
+
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { packageType: packageId },
       });

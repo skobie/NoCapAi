@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Upload, Image, Video, AlertCircle, Loader2, CheckCircle, Shield } from 'lucide-react';
 import { supabase, Scan } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { trackScan } from '../lib/analytics';
 
 type Props = {
   onScanComplete: (scan: Scan, tokensRemaining?: number, freeScansRemaining?: number) => void;
@@ -201,6 +202,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           .single();
 
         if (updatedScan?.status === 'completed') {
+          trackScan(fileType);
           onScanComplete(
             updatedScan as Scan,
             analysisResult.tokensRemaining,

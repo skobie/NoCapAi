@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { LogIn, UserPlus, AlertCircle } from 'lucide-react';
+import { trackSignUp, trackLogin } from '../lib/analytics';
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -21,6 +22,12 @@ export default function Auth() {
 
     if (error) {
       setError(error.message);
+    } else {
+      if (isSignUp) {
+        trackSignUp();
+      } else {
+        trackLogin();
+      }
     }
 
     setLoading(false);
