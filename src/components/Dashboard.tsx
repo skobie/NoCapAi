@@ -77,7 +77,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400">
-      <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
+      <nav className="bg-white/10 backdrop-blur-md border-b border-white/20 pt-safe-top" style={{ paddingTop: 'max(env(safe-area-inset-top), 8px)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
