@@ -34,12 +34,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400 flex flex-col items-center justify-between p-6">
-      <div className="w-full flex justify-between items-center pt-2">
-        <div className="w-12 h-12 border-4 border-white rounded-full"></div>
-        <div className="text-white text-sm font-semibold">9:41</div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400 flex flex-col items-center justify-center p-6">
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white mb-4" style={{
