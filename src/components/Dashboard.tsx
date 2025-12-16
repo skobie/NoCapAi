@@ -105,7 +105,7 @@ export default function Dashboard() {
                 <Coins className="w-4 h-4" />
                 <span>{tokenBalance}</span>
               </button>
-              <div className="hidden sm:flex px-4 py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
+              <div className="px-4 py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
                 {freeScansRemaining} free {freeScansRemaining === 1 ? 'scan' : 'scans'}
               </div>
               <div className="hidden sm:flex gap-2">
@@ -134,7 +134,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={signOut}
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 active:bg-white/40 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm min-h-[44px] min-w-[44px] justify-center relative z-50 touch-manipulation"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="hidden sm:inline">Exit</span>
