@@ -356,7 +356,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           </div>
           <h3 className="font-black text-gray-900 mb-1 text-lg">Instant Results</h3>
           <p className="text-sm text-gray-600 font-semibold">
-            Get confidence scores fast
+            Get confident scores fast
           </p>
         </div>
         <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
