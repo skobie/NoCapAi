@@ -101,9 +101,18 @@ Deno.serve(async (req: Request) => {
 
     if (!checkoutSession.ok) {
       const error = await checkoutSession.text();
-      console.error("Stripe error:", error);
+      console.error("Stripe API error:", {
+        status: checkoutSession.status,
+        error: error,
+        hasStripeKey: !!STRIPE_SECRET_KEY,
+        keyPrefix: STRIPE_SECRET_KEY?.substring(0, 7)
+      });
       return new Response(
-        JSON.stringify({ error: "Failed to create checkout session" }),
+        JSON.stringify({
+          error: "Failed to create checkout session",
+          details: error,
+          status: checkoutSession.status
+        }),
         {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
