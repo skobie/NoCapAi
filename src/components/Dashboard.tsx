@@ -102,16 +102,17 @@ export default function Dashboard() {
               </button>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={openTokenPurchase}
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm"
+                className="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm"
               >
                 <Coins className="w-4 h-4" />
                 <span>{tokenBalance}</span>
               </button>
-              <div className="px-4 py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
-                {freeScansRemaining} free {freeScansRemaining === 1 ? 'scan' : 'scans'}
+              <div className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:px-4 sm:py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
+                <span className="sm:hidden">{freeScansRemaining}</span>
+                <span className="hidden sm:inline whitespace-nowrap">{freeScansRemaining} free {freeScansRemaining === 1 ? 'scan' : 'scans'}</span>
               </div>
               <div className="hidden sm:flex gap-2">
                 <button
