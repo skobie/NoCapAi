@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [showTokenModal, setShowTokenModal] = useState(false);
   const [tokenModalReason, setTokenModalReason] = useState<'insufficient' | 'voluntary'>('voluntary');
   const [showGame, setShowGame] = useState(false);
+  const [freeScanExpanded, setFreeScanExpanded] = useState(false);
 
   const handleSignOut = async () => {
     console.log('Logout button clicked');
@@ -110,10 +111,17 @@ export default function Dashboard() {
                 <Coins className="w-4 h-4" />
                 <span>{tokenBalance}</span>
               </button>
-              <div className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:px-4 sm:py-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg">
-                <span className="sm:hidden">{freeScansRemaining}</span>
+              <button
+                onClick={() => setFreeScanExpanded(!freeScanExpanded)}
+                className={`flex items-center justify-center bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg transition-all duration-300 sm:w-auto sm:h-auto sm:px-4 sm:py-2 ${
+                  freeScanExpanded ? 'w-auto px-3 h-10' : 'w-10 h-10'
+                }`}
+              >
+                <span className={`sm:hidden transition-all duration-300 ${freeScanExpanded ? 'whitespace-nowrap' : ''}`}>
+                  {freeScanExpanded ? `${freeScansRemaining} free ${freeScansRemaining === 1 ? 'scan' : 'scans'}` : freeScansRemaining}
+                </span>
                 <span className="hidden sm:inline whitespace-nowrap">{freeScansRemaining} free {freeScansRemaining === 1 ? 'scan' : 'scans'}</span>
-              </div>
+              </button>
               <div className="hidden sm:flex gap-2">
                 <button
                   onClick={() => setCurrentView('upload')}
