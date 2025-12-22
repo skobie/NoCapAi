@@ -108,6 +108,11 @@
   .wave-letter {
     display: inline-block;
     animation: wave 1.5s ease-in-out infinite;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
   }
 
   .wave-letter:nth-child(1) { animation-delay: 0s; }
