@@ -229,20 +229,20 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
+      <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-cyan-500/30 p-4 sm:p-6 md:p-8">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3" style={{ textShadow: '2px 2px 0px rgba(255,192,203,0.3)' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2 sm:mb-3" style={{ textShadow: '0 0 20px rgba(34, 211, 238, 0.3)' }}>
             Scan Your Media
           </h2>
-          <p className="text-gray-700 font-semibold text-sm sm:text-base md:text-lg">
+          <p className="text-cyan-300 font-semibold text-sm sm:text-base md:text-lg">
             Upload to detect AI-generated content
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-800">{error}</p>
+          <div className="mb-6 bg-red-500/20 border border-red-400 rounded-lg p-4 flex items-start gap-3 backdrop-blur-sm">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-300">{error}</p>
           </div>
         )}
 
@@ -255,18 +255,18 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
             onClick={() => fileInputRef.current?.click()}
             className={`border-3 sm:border-4 border-dashed rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center cursor-pointer transition-all ${
               dragActive
-                ? 'border-pink-500 bg-pink-50'
-                : 'border-gray-300 hover:border-pink-400 hover:bg-pink-50/50'
+                ? 'border-cyan-500 bg-cyan-500/20'
+                : 'border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/10'
             }`}
           >
-            <Upload className="w-14 h-14 sm:w-16 md:w-20 sm:h-16 md:h-20 text-pink-500 mx-auto mb-3 sm:mb-4" />
-            <p className="text-lg sm:text-xl font-black text-gray-900 mb-2">
+            <Upload className="w-14 h-14 sm:w-16 md:w-20 sm:h-16 md:h-20 text-cyan-400 mx-auto mb-3 sm:mb-4" />
+            <p className="text-lg sm:text-xl font-black text-white mb-2">
               Drop your file here
             </p>
-            <p className="text-sm sm:text-base font-semibold text-gray-600 mb-3 sm:mb-4">
+            <p className="text-sm sm:text-base font-semibold text-cyan-300 mb-3 sm:mb-4">
               Images (JPEG, PNG, WebP) • Videos (MP4, WebM)
             </p>
-            <p className="text-xs sm:text-sm text-gray-500 font-medium">Max 50MB</p>
+            <p className="text-xs sm:text-sm text-cyan-400/70 font-medium">Max 50MB</p>
             <input
               ref={fileInputRef}
               type="file"
@@ -277,26 +277,26 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           </div>
         ) : (
           <div className="space-y-4 sm:space-y-6">
-            <div className="border border-gray-200 rounded-xl p-4 sm:p-6">
+            <div className="border border-cyan-500/30 rounded-xl p-4 sm:p-6 bg-slate-800/50">
               <div className="flex items-start gap-3 sm:gap-4">
                 {preview ? (
-                  <img src={preview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg flex-shrink-0" />
+                  <img src={preview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg flex-shrink-0 border border-cyan-500/30" />
                 ) : (
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-slate-700/50 rounded-lg flex items-center justify-center flex-shrink-0 border border-cyan-500/30">
                     {file.type.startsWith('image/') ? (
-                      <Image className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
+                      <Image className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" />
                     ) : (
-                      <Video className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
+                      <Video className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" />
                     )}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm sm:text-base text-gray-900 truncate">{file.name}</p>
-                  <p className="text-xs sm:text-sm text-gray-500">
+                  <p className="font-semibold text-sm sm:text-base text-white truncate">{file.name}</p>
+                  <p className="text-xs sm:text-sm text-cyan-300/70">
                     {(file.size / (1024 * 1024)).toFixed(2)} MB
                   </p>
                   {uploading && (
-                    <div className="mt-2 sm:mt-3 flex items-center gap-2 text-pink-600">
+                    <div className="mt-2 sm:mt-3 flex items-center gap-2 text-cyan-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-xs sm:text-sm font-medium">Analyzing...</span>
                     </div>
@@ -309,7 +309,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
               <button
                 onClick={handleUpload}
                 disabled={uploading}
-                className="flex-1 bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white font-black py-3 sm:py-4 px-6 rounded-full text-base sm:text-lg shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black py-3 sm:py-4 px-6 rounded-full text-base sm:text-lg shadow-lg shadow-cyan-500/50 transition-all transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {uploading ? (
                   <>
@@ -330,7 +330,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
                     setPreview(null);
                     setError(null);
                   }}
-                  className="px-6 py-3 sm:py-4 border-2 border-gray-300 hover:bg-gray-100 text-gray-700 font-bold rounded-full transition-colors"
+                  className="px-6 py-3 sm:py-4 border-2 border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-300 font-bold rounded-full transition-colors"
                 >
                   Cancel
                 </button>
@@ -341,30 +341,30 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
       </div>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+        <div className="bg-slate-900/60 backdrop-blur-xl border border-cyan-500/30 rounded-3xl p-6 text-center shadow-xl shadow-cyan-500/10">
+          <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-cyan-500/50">
             <Shield className="w-7 h-7 text-white" />
           </div>
-          <h3 className="font-black text-gray-900 mb-1 text-lg">Advanced AI</h3>
-          <p className="text-sm text-gray-600 font-semibold">
+          <h3 className="font-black text-cyan-300 mb-1 text-lg">Advanced AI</h3>
+          <p className="text-sm text-cyan-400/70 font-semibold">
             Multiple detection algorithms
           </p>
         </div>
-        <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+        <div className="bg-slate-900/60 backdrop-blur-xl border border-cyan-500/30 rounded-3xl p-6 text-center shadow-xl shadow-cyan-500/10">
+          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/50">
             <CheckCircle className="w-7 h-7 text-white" />
           </div>
-          <h3 className="font-black text-gray-900 mb-1 text-lg">Instant Results</h3>
-          <p className="text-sm text-gray-600 font-semibold">
+          <h3 className="font-black text-cyan-300 mb-1 text-lg">Instant Results</h3>
+          <p className="text-sm text-cyan-400/70 font-semibold">
             Get confident scores fast
           </p>
         </div>
-        <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+        <div className="bg-slate-900/60 backdrop-blur-xl border border-cyan-500/30 rounded-3xl p-6 text-center shadow-xl shadow-cyan-500/10">
+          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-purple-500/50">
             <Shield className="w-7 h-7 text-white" />
           </div>
-          <h3 className="font-black text-gray-900 mb-1 text-lg">Full History</h3>
-          <p className="text-sm text-gray-600 font-semibold">
+          <h3 className="font-black text-cyan-300 mb-1 text-lg">Full History</h3>
+          <p className="text-sm text-cyan-400/70 font-semibold">
             Review all past scans
           </p>
         </div>

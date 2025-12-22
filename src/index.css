@@ -5,6 +5,8 @@
 @layer base {
   body {
     padding-top: env(safe-area-inset-top);
+    background: #0a0e27;
+    overflow-x: hidden;
   }
 }
 
@@ -23,5 +25,70 @@
 
   .safe-top {
     padding-top: env(safe-area-inset-top);
+  }
+
+  .galaxy-bg {
+    position: relative;
+    background: linear-gradient(to bottom, #0a0e27 0%, #1a1446 25%, #2d1b69 50%, #1a1446 75%, #0a0e27 100%);
+  }
+
+  .galaxy-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 50%, white, transparent),
+      radial-gradient(1px 1px at 80% 10%, white, transparent),
+      radial-gradient(2px 2px at 90% 60%, white, transparent),
+      radial-gradient(1px 1px at 33% 80%, white, transparent),
+      radial-gradient(1px 1px at 15% 55%, white, transparent);
+    background-size: 200% 200%, 180% 180%, 220% 220%, 190% 190%, 250% 250%, 210% 210%, 240% 240%;
+    background-position: 0% 0%, 10% 10%, 20% 20%, 30% 30%, 40% 40%, 50% 50%, 60% 60%;
+    animation: twinkle 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .galaxy-bg::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(1px 1px at 25% 15%, rgba(255, 255, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 45% 85%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1px 1px at 75% 45%, rgba(255, 255, 255, 0.7), transparent),
+      radial-gradient(1px 1px at 10% 90%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(2px 2px at 85% 25%, rgba(255, 255, 255, 0.9), transparent),
+      radial-gradient(1px 1px at 65% 65%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1px 1px at 40% 40%, rgba(255, 255, 255, 0.8), transparent);
+    background-size: 300% 300%, 280% 280%, 320% 320%, 290% 290%, 350% 350%, 310% 310%, 340% 340%;
+    background-position: 5% 5%, 15% 15%, 25% 25%, 35% 35%, 45% 45%, 55% 55%, 65% 65%;
+    animation: twinkle 15s ease-in-out infinite reverse;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .galaxy-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
   }
 }

@@ -82,21 +82,21 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400">
-      <nav className="bg-white/10 backdrop-blur-md border-b border-white/20 pt-safe-top" style={{ paddingTop: 'max(env(safe-area-inset-top), 8px)' }}>
+    <div className="min-h-screen galaxy-content">
+      <nav className="bg-slate-900/40 backdrop-blur-md border-b border-cyan-500/30 pt-safe-top shadow-lg shadow-cyan-500/10" style={{ paddingTop: 'max(env(safe-area-inset-top), 8px)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <h1
                 onClick={() => setCurrentView('upload')}
-                className="text-2xl font-black text-white cursor-pointer hover:opacity-80 transition-opacity"
-                style={{ textShadow: '3px 3px 0px rgba(0,0,0,0.3)' }}
+                className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                style={{ textShadow: '0 0 20px rgba(34, 211, 238, 0.3)' }}
               >
                 NoCap
               </h1>
               <button
                 onClick={() => setShowGame(true)}
-                className="px-4 py-2 bg-gradient-to-r from-pink-400 to-orange-400 hover:from-pink-500 hover:to-orange-500 text-white rounded-full font-black text-sm shadow-lg transition-all transform hover:scale-105 flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-full font-black text-sm shadow-lg shadow-cyan-500/50 transition-all transform hover:scale-105 flex items-center gap-2"
               >
                 <Gamepad2 className="w-4 h-4" />
                 <span className="hidden sm:inline">Play</span>
@@ -106,14 +106,14 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={openTokenPurchase}
-                className="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm"
+                className="px-3 sm:px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm border border-yellow-500/30 shadow-lg shadow-yellow-500/20"
               >
                 <Coins className="w-4 h-4" />
                 <span>{tokenBalance}</span>
               </button>
               <button
                 onClick={() => setFreeScanExpanded(!freeScanExpanded)}
-                className={`flex items-center justify-center bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-black text-sm shadow-lg transition-all duration-300 sm:w-auto sm:h-auto sm:px-4 sm:py-2 ${
+                className={`flex items-center justify-center bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-full font-black text-sm shadow-lg shadow-emerald-500/50 transition-all duration-300 sm:w-auto sm:h-auto sm:px-4 sm:py-2 ${
                   freeScanExpanded ? 'w-auto px-3 h-10' : 'w-10 h-10'
                 }`}
               >
@@ -127,8 +127,8 @@ export default function Dashboard() {
                   onClick={() => setCurrentView('upload')}
                   className={`px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 ${
                     currentView === 'upload'
-                      ? 'bg-white text-pink-600 shadow-lg'
-                      : 'text-white hover:bg-white/20'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/50'
+                      : 'text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/30'
                   }`}
                 >
                   <Upload className="w-4 h-4" />
@@ -138,8 +138,8 @@ export default function Dashboard() {
                   onClick={() => setCurrentView('history')}
                   className={`px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 ${
                     currentView === 'history'
-                      ? 'bg-white text-pink-600 shadow-lg'
-                      : 'text-white hover:bg-white/20'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/50'
+                      : 'text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/30'
                   }`}
                 >
                   <History className="w-4 h-4" />
@@ -148,7 +148,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={handleSignOut}
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 active:bg-white/40 text-white rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm min-h-[44px] min-w-[44px] justify-center relative z-50 touch-manipulation"
+                className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 active:bg-red-500/40 text-red-300 rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm border border-red-500/30 shadow-lg shadow-red-500/20 min-h-[44px] min-w-[44px] justify-center relative z-50 touch-manipulation"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="hidden sm:inline">Exit</span>
@@ -186,12 +186,12 @@ export default function Dashboard() {
         onPointsUpdate={handleGamePointsUpdate}
       />
 
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white shadow-2xl">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md shadow-2xl border-t border-cyan-500/30">
         <div className="flex justify-around py-3">
           <button
             onClick={() => setCurrentView('upload')}
             className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl ${
-              currentView === 'upload' ? 'bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-lg' : 'text-gray-600 hover:text-pink-500'
+              currentView === 'upload' ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/50' : 'text-cyan-300 hover:text-cyan-400'
             }`}
           >
             <Upload className="w-6 h-6" />
@@ -200,7 +200,7 @@ export default function Dashboard() {
           <button
             onClick={() => setCurrentView('history')}
             className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl ${
-              currentView === 'history' ? 'bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-lg' : 'text-gray-600 hover:text-pink-500'
+              currentView === 'history' ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/50' : 'text-cyan-300 hover:text-cyan-400'
             }`}
           >
             <History className="w-6 h-6" />

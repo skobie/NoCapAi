@@ -14,19 +14,21 @@ function App() {
   if (loading) {
     return (
       <div
-        className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400 flex items-center justify-center"
+        className="min-h-screen galaxy-bg flex items-center justify-center"
         role="status"
         aria-live="polite"
         aria-label="Loading application"
       >
-        <Loader2 className="w-12 h-12 text-white animate-spin" aria-hidden="true" />
-        <span className="sr-only">Loading...</span>
+        <div className="galaxy-content">
+          <Loader2 className="w-12 h-12 text-cyan-300 animate-spin" aria-hidden="true" />
+          <span className="sr-only">Loading...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <main role="main">
+    <main role="main" className="galaxy-bg">
       {user ? <Dashboard /> : <Auth />}
     </main>
   );

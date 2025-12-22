@@ -62,18 +62,18 @@ export default function ScanHistory({ onViewScan }: Props) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-xl p-6 flex items-start gap-3">
-        <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+      <div className="bg-red-500/20 border border-red-400 rounded-xl p-6 flex items-start gap-3 backdrop-blur-sm">
+        <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
         <div>
-          <p className="font-semibold text-red-900">Error loading scans</p>
-          <p className="text-sm text-red-700 mt-1">{error}</p>
+          <p className="font-semibold text-red-300">Error loading scans</p>
+          <p className="text-sm text-red-400 mt-1">{error}</p>
         </div>
       </div>
     );
@@ -81,12 +81,12 @@ export default function ScanHistory({ onViewScan }: Props) {
 
   if (scans.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
-        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Image className="w-10 h-10 text-gray-400" />
+      <div className="bg-slate-900/80 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-xl p-12 text-center">
+        <div className="w-20 h-20 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Image className="w-10 h-10 text-cyan-400" />
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">No scans yet</h3>
-        <p className="text-gray-600">
+        <h3 className="text-xl font-semibold text-cyan-300 mb-2">No scans yet</h3>
+        <p className="text-cyan-400/70">
           Upload your first image or video to detect AI-generated content
         </p>
       </div>
@@ -96,17 +96,17 @@ export default function ScanHistory({ onViewScan }: Props) {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-6">
-        <h2 className="text-3xl font-black text-white mb-2" style={{ textShadow: '3px 3px 0px rgba(0,0,0,0.2)' }}>
+        <h2 className="text-3xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2" style={{ textShadow: '0 0 20px rgba(34, 211, 238, 0.3)' }}>
           Your Scans
         </h2>
-        <p className="text-white/80 font-semibold">View and manage all your scans</p>
+        <p className="text-cyan-300 font-semibold">View and manage all your scans</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
         {scans.map((scan) => (
           <div
             key={scan.id}
-            className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all hover:scale-[1.02]"
+            className="bg-slate-900/80 backdrop-blur-xl border border-cyan-500/30 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all hover:scale-[1.02]"
           >
             <div className="p-4 sm:p-6">
               <div className="flex items-start gap-3 sm:gap-4">
@@ -114,21 +114,21 @@ export default function ScanHistory({ onViewScan }: Props) {
                   <img
                     src={scan.file_url}
                     alt={scan.file_name}
-                    className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg flex-shrink-0"
+                    className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg flex-shrink-0 border border-cyan-500/30"
                   />
                 ) : (
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Video className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-slate-800/50 rounded-lg flex items-center justify-center flex-shrink-0 border border-cyan-500/30">
+                    <Video className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" />
                   </div>
                 )}
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2 sm:gap-4 mb-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate mb-1">
+                      <h3 className="font-semibold text-sm sm:text-base text-white truncate mb-1">
                         {scan.file_name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-cyan-400/70">
                         {new Date(scan.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -151,21 +151,21 @@ export default function ScanHistory({ onViewScan }: Props) {
                           scan.is_ai_generated ? 'bg-red-500' : 'bg-green-500'
                         }`}
                       />
-                      <span className="text-sm text-gray-700 font-medium">
+                      <span className="text-sm text-cyan-300 font-medium">
                         {scan.is_ai_generated ? 'Likely AI-Generated' : 'Likely Authentic'}
                       </span>
                     </div>
                   )}
 
                   {scan.status === 'processing' && (
-                    <div className="flex items-center gap-2 text-blue-600 mb-3">
+                    <div className="flex items-center gap-2 text-cyan-400 mb-3">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-sm font-medium">Analyzing...</span>
                     </div>
                   )}
 
                   {scan.status === 'failed' && (
-                    <div className="flex items-center gap-2 text-red-600 mb-3">
+                    <div className="flex items-center gap-2 text-red-400 mb-3">
                       <AlertCircle className="w-4 h-4" />
                       <span className="text-sm font-medium">Analysis failed</span>
                     </div>
@@ -175,7 +175,7 @@ export default function ScanHistory({ onViewScan }: Props) {
                     <button
                       onClick={() => onViewScan(scan)}
                       disabled={scan.status !== 'completed'}
-                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white rounded-full font-bold text-sm sm:text-base transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-full font-bold text-sm sm:text-base transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/50"
                     >
                       <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       View
@@ -183,7 +183,7 @@ export default function ScanHistory({ onViewScan }: Props) {
                     <button
                       onClick={() => handleDelete(scan.id, scan.file_url)}
                       disabled={deletingId === scan.id}
-                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 border-2 border-red-400 hover:bg-red-50 text-red-600 rounded-full font-bold text-sm sm:text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 border-2 border-red-500/30 hover:bg-red-500/20 text-red-400 rounded-full font-bold text-sm sm:text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {deletingId === scan.id ? (
                         <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
