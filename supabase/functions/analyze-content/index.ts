@@ -75,6 +75,36 @@ function mockAiDetection(fileUrl: string, fileType: string) {
   };
 }
 
+async function fetchMediaFromUrl(url: string): Promise<{ blob: Blob; contentType: string; fileName: string }> {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch media from URL: ${response.status}`);
+  }
+
+  const contentType = response.headers.get('content-type') || 'application/octet-stream';
+  const blob = await response.blob();
+
+  let extension = 'jpg';
+  if (contentType.includes('png')) extension = 'png';
+  else if (contentType.includes('webp')) extension = 'webp';
+  else if (contentType.includes('mp4')) extension = 'mp4';
+  else if (contentType.includes('webm')) extension = 'webm';
+
+  const fileName = `url_scan_${Date.now()}.${extension}`;
+
+  return { blob, contentType, fileName };
+}
+
+function isValidMediaUrl(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, {
@@ -87,34 +117,99 @@ Deno.serve(async (req: Request) => {
 
   try {
     const requestData = await req.json();
-    scanId = requestData.scanId;
-    const fileUrl = requestData.fileUrl;
-    const fileType = requestData.fileType;
+    const sourceUrl = requestData.sourceUrl;
+    let fileUrl = requestData.fileUrl;
+    let fileType = requestData.fileType;
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { data: scan, error: scanError } = await supabase
-      .from('scans')
-      .select('user_id')
-      .eq('id', scanId)
-      .single();
-
-    if (scanError || !scan) {
-      return new Response(
-        JSON.stringify({ error: 'Scan not found' }),
-        {
-          status: 404,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      throw new Error('No authorization header');
     }
 
-    const userId = scan.user_id;
+    let userId: string;
+
+    if (sourceUrl) {
+      const token = authHeader.replace('Bearer ', '');
+      const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+
+      if (userError || !user) {
+        throw new Error('Unauthorized');
+      }
+
+      userId = user.id;
+
+      if (!isValidMediaUrl(sourceUrl)) {
+        throw new Error('Invalid URL provided. Please provide a valid image or video URL.');
+      }
+
+      try {
+        const { blob, contentType, fileName } = await fetchMediaFromUrl(sourceUrl);
+
+        const filePathInStorage = `${userId}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('scans')
+          .upload(filePathInStorage, blob, {
+            contentType,
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('scans')
+          .getPublicUrl(filePathInStorage);
+
+        fileUrl = publicUrl;
+        fileType = contentType.startsWith('image/') ? 'image' : 'video';
+
+        const { data: scanData, error: scanError } = await supabase
+          .from('scans')
+          .insert({
+            user_id: userId,
+            file_name: fileName,
+            file_type: fileType,
+            file_url: publicUrl,
+            file_size: blob.size,
+            status: 'pending',
+          })
+          .select()
+          .single();
+
+        if (scanError) throw scanError;
+
+        scanId = scanData.id;
+      } catch (error) {
+        throw new Error(`Failed to fetch media: ${error.message}`);
+      }
+    } else {
+      scanId = requestData.scanId;
+
+      const { data: scan, error: scanError } = await supabase
+        .from('scans')
+        .select('user_id')
+        .eq('id', scanId)
+        .single();
+
+      if (scanError || !scan) {
+        return new Response(
+          JSON.stringify({ error: 'Scan not found' }),
+          {
+            status: 404,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      }
+
+      userId = scan.user_id;
+    }
 
     const { data: tokenBalance, error: balanceError } = await supabase
       .from('token_balances')

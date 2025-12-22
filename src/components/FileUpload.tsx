@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Upload, Image, Video, AlertCircle, Loader2, CheckCircle, Shield } from 'lucide-react';
+import { Upload, Image, Video, AlertCircle, Loader2, CheckCircle, Shield, Link } from 'lucide-react';
 import { supabase, Scan } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { trackScan } from '../lib/analytics';
@@ -16,6 +16,8 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [freeScansRemaining, setFreeScansRemaining] = useState<number>(0);
+  const [inputMode, setInputMode] = useState<'file' | 'url'>('file');
+  const [urlInput, setUrlInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
 
@@ -93,6 +95,94 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
     }
   };
 
+  const handleUrlScan = async () => {
+    if (!urlInput.trim() || !user) return;
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      const { data: tokenData } = await supabase
+        .from('token_balances')
+        .select('balance, free_scans_used')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      const hasFreeScans = (tokenData?.free_scans_used || 0) < 3;
+      const hasTokens = (tokenData?.balance || 0) >= 100;
+
+      if (!hasFreeScans && !hasTokens) {
+        setUploading(false);
+        if (onInsufficientTokens) {
+          onInsufficientTokens();
+        }
+        return;
+      }
+
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-content`;
+      const headers = {
+        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      };
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          sourceUrl: urlInput.trim(),
+        }),
+      });
+
+      if (response.status === 402) {
+        setUploading(false);
+        setUrlInput('');
+        if (onInsufficientTokens) {
+          onInsufficientTokens();
+        } else {
+          setError('Insufficient tokens. Please purchase more tokens to continue scanning.');
+        }
+        return;
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch media from URL');
+      }
+
+      const result = await response.json();
+
+      const pollResult = async () => {
+        const { data: updatedScan } = await supabase
+          .from('scans')
+          .select()
+          .eq('id', result.scanId)
+          .single();
+
+        if (updatedScan?.status === 'completed') {
+          trackScan(updatedScan.file_type);
+          onScanComplete(
+            updatedScan as Scan,
+            result.tokensRemaining,
+            result.freeScansRemaining
+          );
+          setFreeScansRemaining(result.freeScansRemaining || 0);
+          setUrlInput('');
+          setUploading(false);
+        } else if (updatedScan?.status === 'failed') {
+          throw new Error(updatedScan.error_message || 'Analysis failed');
+        } else {
+          setTimeout(pollResult, 2000);
+        }
+      };
+
+      setTimeout(pollResult, 2000);
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'URL scan failed');
+      setUploading(false);
+    }
+  };
+
   const handleUpload = async () => {
     if (!file || !user) return;
 
@@ -100,7 +190,6 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
     setError(null);
 
     try {
-      // Check token balance and free scans before uploading
       const { data: tokenData } = await supabase
         .from('token_balances')
         .select('balance, free_scans_used')
@@ -167,7 +256,6 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
       if (response.status === 402) {
         const errorData = await response.json();
 
-        // Clean up: delete the scan record and uploaded file
         await supabase
           .from('scans')
           .delete()
@@ -235,8 +323,42 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
             Scan Your Media
           </h2>
           <p className="text-cyan-300 font-semibold text-sm sm:text-base md:text-lg">
-            Upload to detect AI-generated content
+            Upload or paste a link to detect AI-generated content
           </p>
+        </div>
+
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => {
+              setInputMode('file');
+              setError(null);
+              setUrlInput('');
+            }}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all ${
+              inputMode === 'file'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-slate-800/50 text-cyan-300 hover:bg-slate-800'
+            }`}
+          >
+            <Upload className="w-5 h-5 inline mr-2" />
+            Upload File
+          </button>
+          <button
+            onClick={() => {
+              setInputMode('url');
+              setError(null);
+              setFile(null);
+              setPreview(null);
+            }}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all ${
+              inputMode === 'url'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-slate-800/50 text-cyan-300 hover:bg-slate-800'
+            }`}
+          >
+            <Link className="w-5 h-5 inline mr-2" />
+            Paste Link
+          </button>
         </div>
 
         {error && (
@@ -246,7 +368,44 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           </div>
         )}
 
-        {!file ? (
+        {inputMode === 'url' ? (
+          <div className="space-y-4">
+            <div className="border-3 border-cyan-500/30 rounded-2xl p-6 bg-slate-800/30">
+              <div className="flex items-center gap-3 mb-4">
+                <Link className="w-6 h-6 text-cyan-400" />
+                <p className="text-cyan-300 font-semibold">Paste a direct link to an image or video</p>
+              </div>
+              <input
+                type="url"
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
+                placeholder="https://example.com/image.jpg"
+                disabled={uploading}
+                className="w-full bg-slate-900/50 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-cyan-400/50 focus:outline-none focus:border-cyan-400 transition-colors disabled:opacity-50"
+              />
+              <p className="text-xs text-cyan-400/60 mt-3">
+                Tip: On Instagram/Twitter, right-click an image and select "Copy Image Address"
+              </p>
+            </div>
+            <button
+              onClick={handleUrlScan}
+              disabled={!urlInput.trim() || uploading}
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black py-4 px-6 rounded-full text-lg shadow-lg shadow-cyan-500/50 transition-all transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {uploading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="w-5 h-5" />
+                  Scan Link
+                </>
+              )}
+            </button>
+          </div>
+        ) : !file ? (
           <div
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
