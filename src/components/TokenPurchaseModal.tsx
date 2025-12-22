@@ -102,7 +102,7 @@ export default function TokenPurchaseModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-4">
-      <div className="bg-gradient-to-br from-pink-500 via-pink-400 to-orange-400 rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gradient-to-br from-gray-900 via-slate-800 to-cyan-700 rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white/10 backdrop-blur-md border-b border-white/20 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-2">
           <div className="flex-1 min-w-0">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white flex items-center gap-1.5 sm:gap-2" style={{ textShadow: '3px 3px 0px rgba(0,0,0,0.3)' }}>
@@ -149,7 +149,7 @@ export default function TokenPurchaseModal({
 
           <div className="text-center mb-6 sm:mb-8">
             <div className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/90 backdrop-blur rounded-full mb-3 sm:mb-4 shadow-lg">
-              <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600" />
+              <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-600" />
               <span className="text-xs sm:text-sm font-black text-gray-900">
                 Balance: {currentBalance} tokens
               </span>
@@ -173,7 +173,7 @@ export default function TokenPurchaseModal({
                 >
                   {pkg.popular && (
                     <div className="absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-lg whitespace-nowrap" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
+                      <span className="bg-gradient-to-r from-cyan-600 to-slate-800 text-white text-xs font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-lg whitespace-nowrap" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
                         BEST DEAL
                       </span>
                     </div>
@@ -183,13 +183,13 @@ export default function TokenPurchaseModal({
                     <div
                       className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center shadow-xl ${
                         pkg.popular
-                          ? 'bg-gradient-to-br from-pink-500 to-orange-500'
-                          : 'bg-gradient-to-br from-pink-400 to-pink-600'
+                          ? 'bg-gradient-to-br from-slate-800 to-cyan-600'
+                          : 'bg-gradient-to-br from-slate-700 to-slate-900'
                       }`}
                     >
                       <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-lg" />
                     </div>
-                    <div className="text-3xl sm:text-4xl font-black text-gray-900 mb-1" style={{ textShadow: '2px 2px 0px rgba(255,192,203,0.3)' }}>
+                    <div className="text-3xl sm:text-4xl font-black text-gray-900 mb-1" style={{ textShadow: '2px 2px 0px rgba(6,182,212,0.3)' }}>
                       {pkg.tokens.toLocaleString()}
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-gray-600 mb-2 sm:mb-3">TOKENS</div>
@@ -201,7 +201,7 @@ export default function TokenPurchaseModal({
                   </div>
 
                   <div className="text-center mb-4 sm:mb-6">
-                    <div className="text-4xl sm:text-5xl font-black text-gray-900 mb-1" style={{ textShadow: '2px 2px 0px rgba(255,192,203,0.2)' }}>
+                    <div className="text-4xl sm:text-5xl font-black text-gray-900 mb-1" style={{ textShadow: '2px 2px 0px rgba(6,182,212,0.2)' }}>
                       ${pkg.price.toFixed(2)}
                     </div>
                     <div className="text-xs font-semibold text-gray-500">
@@ -214,7 +214,7 @@ export default function TokenPurchaseModal({
                     disabled={loading !== null}
                     className={`w-full py-3 sm:py-3.5 rounded-full font-black text-base sm:text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 ${
                       pkg.popular
-                        ? 'bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white'
+                        ? 'bg-gradient-to-r from-slate-800 to-cyan-600 hover:from-slate-900 hover:to-cyan-700 text-white'
                         : 'bg-gray-900 hover:bg-gray-800 text-white'
                     }`}
                   >
@@ -236,19 +236,19 @@ export default function TokenPurchaseModal({
             <h3 className="font-black text-gray-900 mb-2 sm:mb-3 text-base sm:text-lg">Why Tokens?</h3>
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm font-semibold text-gray-700">
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
                 <span>Each content scan uses 100 tokens</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
                 <span>Tokens never expire</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
                 <span>Secure payment via Stripe</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
                 <span>Works everywhere, anytime</span>
               </li>
             </ul>

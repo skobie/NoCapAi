@@ -57,7 +57,7 @@ export default function ScanResults({ scan, onBack }: Props) {
         <div className="p-4 sm:p-6 md:p-8">
           <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6 sm:mb-8">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2" style={{ textShadow: '2px 2px 0px rgba(255,192,203,0.2)' }}>
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2" style={{ textShadow: '2px 2px 0px rgba(6,182,212,0.2)' }}>
                 Scan Results
               </h2>
               <p className="text-sm sm:text-base text-gray-600 break-all">{scan.file_name}</p>
