@@ -95,6 +95,14 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
     }
   };
 
+  const isSocialMediaUrl = (url: string): boolean => {
+    return url.includes('instagram.com') ||
+           url.includes('twitter.com') ||
+           url.includes('x.com') ||
+           url.includes('tiktok.com') ||
+           url.includes('facebook.com');
+  };
+
   const handleUrlScan = async () => {
     if (!urlInput.trim() || !user) return;
 
@@ -124,6 +132,28 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
         throw new Error('No active session');
       }
 
+      let finalUrl = urlInput.trim();
+
+      if (isSocialMediaUrl(finalUrl)) {
+        const extractUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/extract-media-url`;
+        const extractResponse = await fetch(extractUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url: finalUrl }),
+        });
+
+        if (!extractResponse.ok) {
+          const errorData = await extractResponse.json();
+          throw new Error(errorData.error || 'Failed to extract media from social media post');
+        }
+
+        const { mediaUrl } = await extractResponse.json();
+        finalUrl = mediaUrl;
+      }
+
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-content`;
       const headers = {
         'Authorization': `Bearer ${session.access_token}`,
@@ -134,7 +164,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
         method: 'POST',
         headers,
         body: JSON.stringify({
-          sourceUrl: urlInput.trim(),
+          sourceUrl: finalUrl,
         }),
       });
 
@@ -378,18 +408,18 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
             <div className="border-3 border-cyan-500/30 rounded-2xl p-6 bg-slate-800/30">
               <div className="flex items-center gap-3 mb-4">
                 <Link className="w-6 h-6 text-cyan-400" />
-                <p className="text-cyan-300 font-semibold">Paste a direct link to an image or video</p>
+                <p className="text-cyan-300 font-semibold">Paste any social media post or direct media link</p>
               </div>
               <input
                 type="url"
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
-                placeholder="https://example.com/image.jpg"
+                placeholder="https://instagram.com/p/xyz... or direct image URL"
                 disabled={uploading}
                 className="w-full bg-slate-900/50 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-cyan-400/50 focus:outline-none focus:border-cyan-400 transition-colors disabled:opacity-50"
               />
               <p className="text-xs text-cyan-400/60 mt-3">
-                Tip: On Instagram/Twitter, right-click an image and select "Copy Image Address"
+                Works with Instagram, Twitter/X, TikTok, Facebook posts, or direct media URLs
               </p>
             </div>
             <button
