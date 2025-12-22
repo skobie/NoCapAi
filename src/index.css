@@ -91,4 +91,23 @@
       transform: scale(0.8);
     }
   }
+
+  @keyframes jiggle {
+    0%, 100% {
+      transform: rotate(-2deg);
+    }
+    25% {
+      transform: rotate(-3deg) translateX(-2px);
+    }
+    50% {
+      transform: rotate(-1deg) translateX(2px);
+    }
+    75% {
+      transform: rotate(-3deg) translateX(-1px);
+    }
+  }
+
+  .jiggle {
+    animation: jiggle 2s ease-in-out infinite;
+  }
 }
