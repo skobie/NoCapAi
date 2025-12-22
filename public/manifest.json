@@ -1,11 +1,11 @@
 {
-  "name": "NoCap - AI Content Detector",
+  "name": "NoCap - Free AI Content Detector",
   "short_name": "NoCap",
-  "description": "Detect AI-generated content with confidence. Scan images, videos, and audio files.",
+  "description": "Free AI content detector. Detect AI-generated content with confidence. Scan images, videos, and audio files.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ec4899",
+  "background_color": "#0a0e27",
+  "theme_color": "#0a0e27",
   "orientation": "portrait-primary",
   "icons": [
     {
