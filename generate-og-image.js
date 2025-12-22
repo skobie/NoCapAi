@@ -15,8 +15,9 @@ const svgImage = `
       <stop offset="100%" style="stop-color:#0a0e27;stop-opacity:1" />
     </linearGradient>
     <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
     </linearGradient>
   </defs>
 
@@ -94,7 +95,7 @@ const svgImage = `
         font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif"
         font-size="28"
         font-weight="600"
-        fill="#ec4899"
+        fill="url(#grad2)"
         text-anchor="middle">
     Images  •  Videos  •  Audio
   </text>
