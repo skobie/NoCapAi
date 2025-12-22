@@ -92,32 +92,22 @@
     }
   }
 
-  @keyframes wave {
+  @keyframes jiggle {
     0%, 100% {
-      transform: translateY(0) rotate(-2deg) translateZ(0);
+      transform: rotate(-2deg);
+    }
+    25% {
+      transform: rotate(-3deg) translateX(-2px);
     }
     50% {
-      transform: translateY(-15px) rotate(-2deg) translateZ(0);
+      transform: rotate(-1deg) translateX(2px);
+    }
+    75% {
+      transform: rotate(-3deg) translateX(-1px);
     }
   }
 
-  .wave-text {
-    display: inline-block;
+  .jiggle {
+    animation: jiggle 2s ease-in-out infinite;
   }
-
-  .wave-letter {
-    display: inline-block;
-    animation: wave 1.5s ease-in-out infinite;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-  }
-
-  .wave-letter:nth-child(1) { animation-delay: 0s; }
-  .wave-letter:nth-child(2) { animation-delay: 0.1s; }
-  .wave-letter:nth-child(3) { animation-delay: 0.2s; }
-  .wave-letter:nth-child(4) { animation-delay: 0.3s; }
-  .wave-letter:nth-child(5) { animation-delay: 0.4s; }
 }
