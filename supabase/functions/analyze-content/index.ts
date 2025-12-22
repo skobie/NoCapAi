@@ -76,24 +76,48 @@ function mockAiDetection(fileUrl: string, fileType: string) {
 }
 
 async function fetchMediaFromUrl(url: string): Promise<{ blob: Blob; contentType: string; fileName: string }> {
-  const response = await fetch(url);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch media from URL: ${response.status}`);
+    if (!response.ok) {
+      if (response.status === 403 || response.status === 401) {
+        throw new Error('Access denied. Please right-click the image and select "Copy Image Address" to get the direct image URL, not the post URL.');
+      }
+      throw new Error(`Failed to fetch media: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type') || 'application/octet-stream';
+
+    if (!contentType.includes('image') && !contentType.includes('video')) {
+      throw new Error('URL does not point to an image or video. Please provide a direct link to media content.');
+    }
+
+    const blob = await response.blob();
+
+    if (blob.size === 0) {
+      throw new Error('Downloaded file is empty. Please check the URL.');
+    }
+
+    let extension = 'jpg';
+    if (contentType.includes('png')) extension = 'png';
+    else if (contentType.includes('webp')) extension = 'webp';
+    else if (contentType.includes('mp4')) extension = 'mp4';
+    else if (contentType.includes('webm')) extension = 'webm';
+    else if (contentType.includes('jpeg')) extension = 'jpg';
+
+    const fileName = `url_scan_${Date.now()}.${extension}`;
+
+    return { blob, contentType, fileName };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Failed to download media from URL. Please ensure the URL is accessible and points directly to an image or video.');
   }
-
-  const contentType = response.headers.get('content-type') || 'application/octet-stream';
-  const blob = await response.blob();
-
-  let extension = 'jpg';
-  if (contentType.includes('png')) extension = 'png';
-  else if (contentType.includes('webp')) extension = 'webp';
-  else if (contentType.includes('mp4')) extension = 'mp4';
-  else if (contentType.includes('webm')) extension = 'webm';
-
-  const fileName = `url_scan_${Date.now()}.${extension}`;
-
-  return { blob, contentType, fileName };
 }
 
 function isValidMediaUrl(url: string): boolean {
