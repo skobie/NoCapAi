@@ -418,9 +418,14 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
                 disabled={uploading}
                 className="w-full bg-slate-900/50 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-cyan-400/50 focus:outline-none focus:border-cyan-400 transition-colors disabled:opacity-50"
               />
-              <p className="text-xs text-cyan-400/60 mt-3">
-                Works with Instagram, Twitter/X, TikTok, Facebook posts, or direct media URLs
-              </p>
+              <div className="mt-3 space-y-1">
+                <p className="text-xs text-cyan-400/60">
+                  Works with Instagram, Twitter/X, TikTok, Facebook posts, or direct media URLs
+                </p>
+                <p className="text-xs text-yellow-400/70 font-medium">
+                  Note: Social media platforms often block automated access. If a link fails, download the image/video and upload the file instead.
+                </p>
+              </div>
             </div>
             <button
               onClick={handleUrlScan}
