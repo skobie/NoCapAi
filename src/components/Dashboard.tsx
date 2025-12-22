@@ -82,7 +82,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-slate-800 to-cyan-700">
+    <div className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400">
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20 pt-safe-top" style={{ paddingTop: 'max(env(safe-area-inset-top), 8px)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -96,7 +96,7 @@ export default function Dashboard() {
               </h1>
               <button
                 onClick={() => setShowGame(true)}
-                className="px-4 py-2 bg-gradient-to-r from-slate-700 to-cyan-600 hover:from-slate-800 hover:to-cyan-700 text-white rounded-full font-black text-sm shadow-lg transition-all transform hover:scale-105 flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-pink-400 to-orange-400 hover:from-pink-500 hover:to-orange-500 text-white rounded-full font-black text-sm shadow-lg transition-all transform hover:scale-105 flex items-center gap-2"
               >
                 <Gamepad2 className="w-4 h-4" />
                 <span className="hidden sm:inline">Play</span>
@@ -127,7 +127,7 @@ export default function Dashboard() {
                   onClick={() => setCurrentView('upload')}
                   className={`px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 ${
                     currentView === 'upload'
-                      ? 'bg-white text-cyan-600 shadow-lg'
+                      ? 'bg-white text-pink-600 shadow-lg'
                       : 'text-white hover:bg-white/20'
                   }`}
                 >
@@ -138,7 +138,7 @@ export default function Dashboard() {
                   onClick={() => setCurrentView('history')}
                   className={`px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 ${
                     currentView === 'history'
-                      ? 'bg-white text-cyan-600 shadow-lg'
+                      ? 'bg-white text-pink-600 shadow-lg'
                       : 'text-white hover:bg-white/20'
                   }`}
                 >
@@ -191,7 +191,7 @@ export default function Dashboard() {
           <button
             onClick={() => setCurrentView('upload')}
             className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl ${
-              currentView === 'upload' ? 'bg-gradient-to-r from-slate-800 to-cyan-600 text-white shadow-lg' : 'text-gray-600 hover:text-cyan-600'
+              currentView === 'upload' ? 'bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-lg' : 'text-gray-600 hover:text-pink-500'
             }`}
           >
             <Upload className="w-6 h-6" />
@@ -200,7 +200,7 @@ export default function Dashboard() {
           <button
             onClick={() => setCurrentView('history')}
             className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl ${
-              currentView === 'history' ? 'bg-gradient-to-r from-slate-800 to-cyan-600 text-white shadow-lg' : 'text-gray-600 hover:text-cyan-600'
+              currentView === 'history' ? 'bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-lg' : 'text-gray-600 hover:text-pink-500'
             }`}
           >
             <History className="w-6 h-6" />

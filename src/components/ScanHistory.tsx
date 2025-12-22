@@ -175,7 +175,7 @@ export default function ScanHistory({ onViewScan }: Props) {
                     <button
                       onClick={() => onViewScan(scan)}
                       disabled={scan.status !== 'completed'}
-                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-slate-800 to-cyan-600 hover:from-slate-900 hover:to-cyan-700 text-white rounded-full font-bold text-sm sm:text-base transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white rounded-full font-bold text-sm sm:text-base transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                     >
                       <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       View

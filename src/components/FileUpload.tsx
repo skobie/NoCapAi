@@ -231,7 +231,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3" style={{ textShadow: '2px 2px 0px rgba(6,182,212,0.3)' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3" style={{ textShadow: '2px 2px 0px rgba(255,192,203,0.3)' }}>
             Scan Your Media
           </h2>
           <p className="text-gray-700 font-semibold text-sm sm:text-base md:text-lg">
@@ -255,11 +255,11 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
             onClick={() => fileInputRef.current?.click()}
             className={`border-3 sm:border-4 border-dashed rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 text-center cursor-pointer transition-all ${
               dragActive
-                ? 'border-cyan-500 bg-cyan-50'
-                : 'border-gray-300 hover:border-cyan-400 hover:bg-cyan-50/50'
+                ? 'border-pink-500 bg-pink-50'
+                : 'border-gray-300 hover:border-pink-400 hover:bg-pink-50/50'
             }`}
           >
-            <Upload className="w-14 h-14 sm:w-16 md:w-20 sm:h-16 md:h-20 text-cyan-600 mx-auto mb-3 sm:mb-4" />
+            <Upload className="w-14 h-14 sm:w-16 md:w-20 sm:h-16 md:h-20 text-pink-500 mx-auto mb-3 sm:mb-4" />
             <p className="text-lg sm:text-xl font-black text-gray-900 mb-2">
               Drop your file here
             </p>
@@ -296,7 +296,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
                     {(file.size / (1024 * 1024)).toFixed(2)} MB
                   </p>
                   {uploading && (
-                    <div className="mt-2 sm:mt-3 flex items-center gap-2 text-cyan-600">
+                    <div className="mt-2 sm:mt-3 flex items-center gap-2 text-pink-600">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-xs sm:text-sm font-medium">Analyzing...</span>
                     </div>
@@ -309,7 +309,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
               <button
                 onClick={handleUpload}
                 disabled={uploading}
-                className="flex-1 bg-gradient-to-r from-slate-800 to-cyan-600 hover:from-slate-900 hover:to-cyan-700 text-white font-black py-3 sm:py-4 px-6 rounded-full text-base sm:text-lg shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white font-black py-3 sm:py-4 px-6 rounded-full text-base sm:text-lg shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {uploading ? (
                   <>
@@ -342,7 +342,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+          <div className="w-14 h-14 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
             <Shield className="w-7 h-7 text-white" />
           </div>
           <h3 className="font-black text-gray-900 mb-1 text-lg">Advanced AI</h3>
@@ -351,7 +351,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           </p>
         </div>
         <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+          <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
             <CheckCircle className="w-7 h-7 text-white" />
           </div>
           <h3 className="font-black text-gray-900 mb-1 text-lg">Instant Results</h3>
@@ -360,7 +360,7 @@ export default function FileUpload({ onScanComplete, onInsufficientTokens }: Pro
           </p>
         </div>
         <div className="bg-white/90 backdrop-blur rounded-3xl p-6 text-center shadow-xl">
-          <div className="w-14 h-14 bg-gradient-to-br from-slate-800 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+          <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
             <Shield className="w-7 h-7 text-white" />
           </div>
           <h3 className="font-black text-gray-900 mb-1 text-lg">Full History</h3>

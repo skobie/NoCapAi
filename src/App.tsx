@@ -14,7 +14,7 @@ function App() {
   if (loading) {
     return (
       <div
-        className="min-h-screen bg-gradient-to-b from-gray-900 via-slate-800 to-cyan-700 flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-b from-pink-500 via-pink-400 to-orange-400 flex items-center justify-center"
         role="status"
         aria-live="polite"
         aria-label="Loading application"
