@@ -34,15 +34,25 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen galaxy-content flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen galaxy-bg galaxy-content flex flex-col items-center justify-center p-6">
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent mb-4" style={{
-            textShadow: '0 0 40px rgba(34, 211, 238, 0.5)',
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-4 inline-flex" style={{
             letterSpacing: '-0.05em',
             transform: 'rotate(-2deg)'
           }}>
-            NoCap
+            {'NoCap'.split('').map((letter, index) => (
+              <span
+                key={index}
+                className="inline-block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent wave-letter"
+                style={{
+                  textShadow: '0 0 40px rgba(34, 211, 238, 0.5)',
+                  animationDelay: `${index * 0.1}s`
+                }}
+              >
+                {letter}
+              </span>
+            ))}
           </h1>
           <p className="text-cyan-300 text-base sm:text-lg md:text-xl font-bold px-4 drop-shadow-lg">Detect fake content instantly</p>
         </div>
