@@ -1,15 +1,23 @@
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
+import LegalAgreement from './components/LegalAgreement';
 import { Loader2 } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const { user, loading } = useAuth();
+  const [hasAcceptedLegal, setHasAcceptedLegal] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = 'en';
+    const accepted = localStorage.getItem('legal-agreement-accepted') === 'true';
+    setHasAcceptedLegal(accepted);
   }, []);
+
+  const handleLegalAccept = () => {
+    setHasAcceptedLegal(true);
+  };
 
   if (loading) {
     return (
@@ -24,6 +32,14 @@ function App() {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
+    );
+  }
+
+  if (!user && !hasAcceptedLegal) {
+    return (
+      <main role="main" className="galaxy-bg">
+        <LegalAgreement onAccept={handleLegalAccept} />
+      </main>
     );
   }
 
