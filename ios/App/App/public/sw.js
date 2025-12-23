@@ -1,40 +1,53 @@
-const CACHE_NAME = 'nocap-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/logo.svg',
-  '/manifest.json'
-];
+const CACHE_NAME = 'nocap-v2';
+const STATIC_CACHE = 'nocap-static-v2';
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
+    caches.open(STATIC_CACHE).then((cache) => {
+      return cache.addAll([
+        '/logo.svg',
+        '/manifest.json',
+        '/icon-192.png',
+        '/icon-512.png'
+      ]);
+    })
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
+  const url = new URL(event.request.url);
+
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  if (url.pathname.endsWith('.html') || url.pathname === '/') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clonedResponse = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, clonedResponse);
+          });
           return response;
-        }
-        return fetch(event.request).then(
-          (response) => {
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          }
-        );
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  } else if (url.pathname.match(/\.(js|css|png|jpg|jpeg|svg|gif|woff|woff2)$/)) {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request).then((fetchResponse) => {
+          return caches.open(STATIC_CACHE).then((cache) => {
+            cache.put(event.request, fetchResponse.clone());
+            return fetchResponse;
+          });
+        });
       })
-  );
+    );
+  }
 });
 
 self.addEventListener('activate', (event) => {
