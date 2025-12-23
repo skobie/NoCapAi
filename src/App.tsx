@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const { user, loading } = useAuth();
-  const [hasAcceptedLegal, setHasAcceptedLegal] = useState(false);
+  const [hasAcceptedLegal, setHasAcceptedLegal] = useState<boolean | null>(null);
 
   useEffect(() => {
     document.documentElement.lang = 'en';
@@ -19,7 +19,7 @@ function App() {
     setHasAcceptedLegal(true);
   };
 
-  if (loading) {
+  if (loading || hasAcceptedLegal === null) {
     return (
       <div
         className="min-h-screen galaxy-bg flex items-center justify-center"
