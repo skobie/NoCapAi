@@ -181,7 +181,7 @@ export default function LegalAgreement({ onAccept }: LegalAgreementProps) {
                   onChange={(e) => setAgreedToTerms(e.target.checked)}
                   className="sr-only"
                 />
-                <div className={`w-6 h-6 rounded-lg border-2 transition-all ${
+                <div className={`relative w-6 h-6 rounded-lg border-2 transition-all ${
                   agreedToTerms
                     ? 'bg-cyan-500 border-cyan-500'
                     : 'bg-slate-800 border-cyan-500/50 group-hover:border-cyan-500'
@@ -204,7 +204,7 @@ export default function LegalAgreement({ onAccept }: LegalAgreementProps) {
                   onChange={(e) => setAgreedToPrivacy(e.target.checked)}
                   className="sr-only"
                 />
-                <div className={`w-6 h-6 rounded-lg border-2 transition-all ${
+                <div className={`relative w-6 h-6 rounded-lg border-2 transition-all ${
                   agreedToPrivacy
                     ? 'bg-cyan-500 border-cyan-500'
                     : 'bg-slate-800 border-cyan-500/50 group-hover:border-cyan-500'
