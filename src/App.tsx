@@ -1,25 +1,29 @@
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
-import LegalAgreement from './components/LegalAgreement';
+// TEMPORARILY DISABLED FOR STRIPE VERIFICATION - import LegalAgreement from './components/LegalAgreement';
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 function App() {
   const { user, loading } = useAuth();
-  const [hasAcceptedLegal, setHasAcceptedLegal] = useState<boolean | null>(null);
+
+  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
+  // const [hasAcceptedLegal, setHasAcceptedLegal] = useState<boolean | null>(null);
 
   useEffect(() => {
     document.documentElement.lang = 'en';
-    const accepted = localStorage.getItem('legal-agreement-accepted') === 'true';
-    setHasAcceptedLegal(accepted);
+    // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
+    // const accepted = localStorage.getItem('legal-agreement-accepted') === 'true';
+    // setHasAcceptedLegal(accepted);
   }, []);
 
-  const handleLegalAccept = () => {
-    setHasAcceptedLegal(true);
-  };
+  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
+  // const handleLegalAccept = () => {
+  //   setHasAcceptedLegal(true);
+  // };
 
-  if (loading || hasAcceptedLegal === null) {
+  if (loading) {
     return (
       <div
         className="min-h-screen galaxy-bg flex items-center justify-center"
@@ -35,13 +39,14 @@ function App() {
     );
   }
 
-  if (!user && !hasAcceptedLegal) {
-    return (
-      <main role="main" className="galaxy-bg">
-        <LegalAgreement onAccept={handleLegalAccept} />
-      </main>
-    );
-  }
+  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
+  // if (!user && !hasAcceptedLegal) {
+  //   return (
+  //     <main role="main" className="galaxy-bg">
+  //       <LegalAgreement onAccept={handleLegalAccept} />
+  //     </main>
+  //   );
+  // }
 
   return (
     <main role="main" className="galaxy-bg">
