@@ -9,19 +9,24 @@
   <!-- Homepage -->
   <url>
     <loc>https://nocap-ai.com/</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-12-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Add more URLs as your app grows -->
-  <!-- Example:
+  <!-- Legal Pages -->
   <url>
-    <loc>https://your-domain.com/about</loc>
-    <lastmod>2024-12-15</lastmod>
+    <loc>https://nocap-ai.com/privacy-policy.html</loc>
+    <lastmod>2025-12-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
   </url>
-  -->
+
+  <url>
+    <loc>https://nocap-ai.com/terms-of-service.html</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 
 </urlset>
