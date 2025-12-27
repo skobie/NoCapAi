@@ -1,29 +1,25 @@
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
-// TEMPORARILY DISABLED FOR STRIPE VERIFICATION - import LegalAgreement from './components/LegalAgreement';
+import LegalAgreement from './components/LegalAgreement';
 import { Loader2 } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const { user, loading } = useAuth();
-
-  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
-  // const [hasAcceptedLegal, setHasAcceptedLegal] = useState<boolean | null>(null);
+  const [hasAcceptedLegal, setHasAcceptedLegal] = useState<boolean | null>(null);
 
   useEffect(() => {
     document.documentElement.lang = 'en';
-    // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
-    // const accepted = localStorage.getItem('legal-agreement-accepted') === 'true';
-    // setHasAcceptedLegal(accepted);
+    const accepted = localStorage.getItem('legal-agreement-accepted') === 'true';
+    setHasAcceptedLegal(accepted);
   }, []);
 
-  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
-  // const handleLegalAccept = () => {
-  //   setHasAcceptedLegal(true);
-  // };
+  const handleLegalAccept = () => {
+    setHasAcceptedLegal(true);
+  };
 
-  if (loading) {
+  if (loading || hasAcceptedLegal === null) {
     return (
       <div
         className="min-h-screen galaxy-bg flex items-center justify-center"
@@ -39,22 +35,17 @@ function App() {
     );
   }
 
-  // TEMPORARILY DISABLED FOR STRIPE VERIFICATION
-  // if (!user && !hasAcceptedLegal) {
-  //   return (
-  //     <main role="main" className="galaxy-bg">
-  //       <LegalAgreement onAccept={handleLegalAccept} />
-  //     </main>
-  //   );
-  // }
+  if (!user && !hasAcceptedLegal) {
+    return (
+      <main role="main" className="galaxy-bg">
+        <LegalAgreement onAccept={handleLegalAccept} />
+      </main>
+    );
+  }
 
   return (
     <main role="main" className="galaxy-bg">
-      {/* TEMPORARILY DISABLED FOR STRIPE VERIFICATION - Always show Dashboard without auth */}
-      <Dashboard />
-      {/* ORIGINAL CODE (RE-ENABLE AFTER STRIPE VERIFICATION):
       {user ? <Dashboard /> : <Auth />}
-      */}
     </main>
   );
 }
