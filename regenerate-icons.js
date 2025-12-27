@@ -19,6 +19,7 @@ async function generateIcons() {
 
     await sharp(svgBuffer)
       .resize(size, size)
+      .flatten({ background: '#0a0e27' })
       .png()
       .toFile(outputPath);
 
@@ -28,6 +29,7 @@ async function generateIcons() {
   const faviconPath = join(__dirname, 'public', 'favicon.ico');
   await sharp(svgBuffer)
     .resize(32, 32)
+    .flatten({ background: '#0a0e27' })
     .png()
     .toFile(faviconPath);
 
@@ -40,6 +42,7 @@ async function generateIcons() {
   const iosSplashPath = join(__dirname, 'ios', 'App', 'App', 'Assets.xcassets', 'Splash.imageset', 'splash-2732x2732.png');
   await sharp(svgBuffer)
     .resize(2732, 2732)
+    .flatten({ background: '#0a0e27' })
     .png()
     .toFile(iosSplashPath);
   console.log('✓ Generated splash-2732x2732.png');
@@ -47,6 +50,7 @@ async function generateIcons() {
   const iosSplash1Path = join(__dirname, 'ios', 'App', 'App', 'Assets.xcassets', 'Splash.imageset', 'splash-2732x2732-1.png');
   await sharp(svgBuffer)
     .resize(2732, 2732)
+    .flatten({ background: '#0a0e27' })
     .png()
     .toFile(iosSplash1Path);
   console.log('✓ Generated splash-2732x2732-1.png');
@@ -54,6 +58,7 @@ async function generateIcons() {
   const iosSplash2Path = join(__dirname, 'ios', 'App', 'App', 'Assets.xcassets', 'Splash.imageset', 'splash-2732x2732-2.png');
   await sharp(svgBuffer)
     .resize(2732, 2732)
+    .flatten({ background: '#0a0e27' })
     .png()
     .toFile(iosSplash2Path);
   console.log('✓ Generated splash-2732x2732-2.png');
@@ -63,6 +68,7 @@ async function generateIcons() {
   const iosIconPath = join(__dirname, 'ios', 'App', 'App', 'Assets.xcassets', 'AppIcon.appiconset', 'AppIcon-512@2x.png');
   await sharp(svgBuffer)
     .resize(1024, 1024)
+    .flatten({ background: '#0a0e27' })
     .png()
     .toFile(iosIconPath);
   console.log('✓ Generated AppIcon-512@2x.png (1024x1024)');
