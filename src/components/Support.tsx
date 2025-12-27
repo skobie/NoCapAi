@@ -97,14 +97,14 @@ export default function Support({ onClose }: SupportProps) {
   if (isSubmitted) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="bg-green-100 rounded-full p-3">
-              <CheckCircle className="w-12 h-12 text-green-600" />
+        <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 text-center">
+          <div className="mb-3 flex justify-center">
+            <div className="bg-green-100 rounded-full p-2.5">
+              <CheckCircle className="w-10 h-10 text-green-600" />
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
-          <p className="text-gray-600">
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Thank You!</h3>
+          <p className="text-sm text-gray-600">
             Your feedback has been submitted successfully. We appreciate you taking the time to help us improve.
           </p>
         </div>
@@ -113,51 +113,51 @@ export default function Support({ onClose }: SupportProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full my-8">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50 overflow-y-auto">
+      <div className="bg-white rounded-t-3xl sm:rounded-xl shadow-2xl w-full sm:max-w-lg sm:my-8 max-h-[85vh] sm:max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Support & Feedback</h2>
-            <p className="text-sm text-gray-600 mt-1">We'd love to hear from you</p>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Support & Feedback</h2>
+            <p className="text-xs sm:text-sm text-gray-600 mt-0.5">We'd love to hear from you</p>
           </div>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <X className="w-6 h-6 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
               What would you like to share?
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               {feedbackOptions.map((option) => (
                 <button
                   key={option.value}
                   type="button"
                   onClick={() => setFeedbackType(option.value)}
-                  className={`p-4 rounded-lg border-2 transition-all text-left ${
+                  className={`p-3 rounded-lg border-2 transition-all text-left ${
                     feedbackType === option.value
                       ? 'border-blue-500 bg-blue-50'
                       : 'border-gray-200 hover:border-gray-300 bg-white'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <div className={`${
+                  <div className="flex items-start gap-2">
+                    <div className={`flex-shrink-0 ${
                       feedbackType === option.value ? 'text-blue-600' : 'text-gray-400'
                     }`}>
                       {option.icon}
                     </div>
-                    <div className="flex-1">
-                      <div className={`font-semibold ${
+                    <div className="flex-1 min-w-0">
+                      <div className={`text-sm font-semibold ${
                         feedbackType === option.value ? 'text-blue-900' : 'text-gray-900'
                       }`}>
                         {option.label}
                       </div>
-                      <div className="text-xs text-gray-500 mt-0.5">
+                      <div className="text-xs text-gray-500 mt-0.5 truncate">
                         {option.description}
                       </div>
                     </div>
@@ -168,7 +168,7 @@ export default function Support({ onClose }: SupportProps) {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
               Email (for follow-up)
             </label>
             <input
@@ -177,13 +177,13 @@ export default function Support({ onClose }: SupportProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="subject" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
               Subject
             </label>
             <input
@@ -192,13 +192,13 @@ export default function Support({ onClose }: SupportProps) {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="Brief summary of your feedback"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="message" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
               Message
             </label>
             <textarea
@@ -206,37 +206,37 @@ export default function Support({ onClose }: SupportProps) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tell us more about your feedback..."
-              rows={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              rows={4}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               required
             />
           </div>
 
           {error && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-xs sm:text-sm text-red-600">{error}</p>
             </div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-2 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              className="flex-1 px-4 py-2.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>Submitting...</>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  Submit Feedback
+                  Submit
                 </>
               )}
             </button>
