@@ -50,7 +50,11 @@ function App() {
 
   return (
     <main role="main" className="galaxy-bg">
+      {/* TEMPORARILY DISABLED FOR STRIPE VERIFICATION - Always show Dashboard without auth */}
+      <Dashboard />
+      {/* ORIGINAL CODE (RE-ENABLE AFTER STRIPE VERIFICATION):
       {user ? <Dashboard /> : <Auth />}
+      */}
     </main>
   );
 }
