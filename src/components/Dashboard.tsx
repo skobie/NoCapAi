@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, Upload, History, Coins, Gamepad2 } from 'lucide-react';
+import { LogOut, Upload, History, Coins, Gamepad2, HelpCircle } from 'lucide-react';
 import FileUpload from './FileUpload';
 import ScanHistory from './ScanHistory';
 import ScanResults from './ScanResults';
 import TokenPurchaseModal from './TokenPurchaseModal';
 import Game from './Game';
+import Support from './Support';
 import { Scan, supabase } from '../lib/supabase';
 
 type View = 'upload' | 'history' | 'results';
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const [tokenModalReason, setTokenModalReason] = useState<'insufficient' | 'voluntary'>('voluntary');
   const [showGame, setShowGame] = useState(false);
   const [freeScanExpanded, setFreeScanExpanded] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
 
   const handleSignOut = async () => {
     console.log('Logout button clicked');
@@ -147,6 +149,13 @@ export default function Dashboard() {
                 </button>
               </div>
               <button
+                onClick={() => setShowSupport(true)}
+                className="px-3 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 active:bg-cyan-500/40 text-cyan-300 rounded-full font-bold transition-all backdrop-blur-sm border border-cyan-500/30 shadow-lg shadow-cyan-500/20 min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation"
+                aria-label="Support & Help"
+              >
+                <HelpCircle className="w-5 h-5" />
+              </button>
+              <button
                 onClick={handleSignOut}
                 className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 active:bg-red-500/40 text-red-300 rounded-full font-bold transition-all flex items-center gap-2 backdrop-blur-sm border border-red-500/30 shadow-lg shadow-red-500/20 min-h-[44px] min-w-[44px] justify-center relative z-50 touch-manipulation"
               >
@@ -186,6 +195,10 @@ export default function Dashboard() {
         onPointsUpdate={handleGamePointsUpdate}
       />
 
+      {showSupport && (
+        <Support onClose={() => setShowSupport(false)} />
+      )}
+
       <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md shadow-2xl border-t border-cyan-500/30">
         <div className="flex justify-around py-3">
           <button
@@ -205,6 +218,13 @@ export default function Dashboard() {
           >
             <History className="w-6 h-6" />
             <span className="text-xs font-bold">History</span>
+          </button>
+          <button
+            onClick={() => setShowSupport(true)}
+            className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-cyan-300 hover:text-cyan-400"
+          >
+            <HelpCircle className="w-6 h-6" />
+            <span className="text-xs font-bold">Help</span>
           </button>
         </div>
       </div>
